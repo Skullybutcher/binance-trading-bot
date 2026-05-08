@@ -1,0 +1,29 @@
+# Secrets
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Packaging / builds
+*.egg-info/
+dist/
+build/
+
+# Logs (keep logs/ folder tracked)
+*.log
+!logs/
+
+# OS / tooling
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+
+# Project Planning Documents
+trading_bot_plan.docx
