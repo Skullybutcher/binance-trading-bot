@@ -6,9 +6,10 @@ import sys
 def setup_logging(name: str = "trading_bot") -> logging.Logger:
 	"""Configure and return a logger for the trading bot."""
 	logger = logging.getLogger(name)
-	logger.setLevel(logging.INFO)
+	logger.setLevel(logging.DEBUG)
 
 	if logger.handlers:
+		logger.setLevel(logging.DEBUG)
 		return logger
 
 	os.makedirs("logs", exist_ok=True)
@@ -16,12 +17,12 @@ def setup_logging(name: str = "trading_bot") -> logging.Logger:
 	log_format = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 	formatter = logging.Formatter(log_format)
 
-	file_handler = logging.FileHandler("logs/trading_bot.log", mode="a", encoding="utf-8")
-	file_handler.setLevel(logging.INFO)
+	file_handler = logging.FileHandler("logs/trading.log", mode="a", encoding="utf-8")
+	file_handler.setLevel(logging.DEBUG)
 	file_handler.setFormatter(formatter)
 
 	console_handler = logging.StreamHandler(sys.stdout)
-	console_handler.setLevel(logging.WARNING)
+	console_handler.setLevel(logging.INFO)
 	console_handler.setFormatter(formatter)
 
 	logger.addHandler(file_handler)

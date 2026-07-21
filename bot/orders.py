@@ -31,9 +31,19 @@ def place_stop_limit_order(
 	return client.place_order(
 		symbol=symbol,
 		side=side,
-		order_type="STOP-LIMIT",
+		order_type="STOP",
 		quantity=quantity,
 		price=price,
+		stop_price=stop_price,
+	)
+
+
+def place_stop_market_order(client: BinanceClient, symbol, side, quantity, stop_price) -> dict:
+	return client.place_order(
+		symbol=symbol,
+		side=side,
+		order_type="STOP_MARKET",
+		quantity=quantity,
 		stop_price=stop_price,
 	)
 

@@ -35,16 +35,19 @@ class BinanceClient:
 			params["type"] = "LIMIT"
 			params["timeInForce"] = "GTC"
 			params["price"] = price
-		elif cleaned_order_type == "STOP-LIMIT":
+		elif cleaned_order_type in {"STOP", "STOP-LIMIT"}:
 			params["type"] = "STOP"
 			params["timeInForce"] = "GTC"
 			params["price"] = price
+			params["stopPrice"] = stop_price
+		elif cleaned_order_type == "STOP_MARKET":
+			params["type"] = "STOP_MARKET"
 			params["stopPrice"] = stop_price
 		else:
 			params["type"] = cleaned_order_type
 
 		self._logger.info(
-			"Placing order | symbol=%s side=%s type=%s qty=%s price=%s stopPrice=%s",
+			"Order request initiated | Symbol=%s Side=%s Type=%s Qty=%s Price=%s StopPrice=%s",
 			symbol,
 			side,
 			cleaned_order_type,
@@ -55,14 +58,22 @@ class BinanceClient:
 
 		try:
 			response = self._client.futures_create_order(**params)
-			self._logger.info("Order response | %s", response)
+			self._logger.debug("Raw order response payload: %s", response)
 			return response
 		except BinanceAPIException as exc:
-			self._logger.error("Binance API error %s: %s", exc.code, exc.message)
+			self._logger.exception("Binance API error %s: %s", exc.code, exc.message)
 			raise
 		except BinanceRequestException as exc:
-			self._logger.error("Binance network error: %s", exc)
+			self._logger.exception("Binance network error: %s", exc)
 			raise
+
+	def futures_mark_price(self, symbol: str) -> dict:
+		"""Returns the current futures mark price for a symbol."""
+		return self._client.futures_mark_price(symbol=symbol)
+
+	def get_mark_price(self, symbol: str) -> float:
+		mark_price = self.futures_mark_price(symbol=symbol).get("markPrice")
+		return float(mark_price)
 
 	def futures_symbol_ticker(self, symbol: str) -> dict:
 		"""Returns current price ticker for a futures symbol."""

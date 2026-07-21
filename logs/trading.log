@@ -1,0 +1,53 @@
+2026-07-21 20:35:29,876 | INFO | trading_bot | Order request initiated | Symbol=BTCUSDT Side=BUY Type=MARKET Qty=0.001 Price=None StopPrice=None
+2026-07-21 20:35:30,548 | ERROR | trading_bot | Binance API error -1109: Invalid account.
+Traceback (most recent call last):
+  File "C:\Users\ayush\Documents\binance-trading-bot\bot\client.py", line 60, in place_order
+    response = self._client.futures_create_order(**params)
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 7951, in futures_create_order
+    return self._request_futures_api("post", "order", True, data=params)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 144, in _request_futures_api
+    return self._request(method, uri, signed, force_params, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 107, in _request
+    return self._handle_response(self.response)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 116, in _handle_response
+    raise BinanceAPIException(response, response.status_code, response.text)
+binance.exceptions.BinanceAPIException: APIError(code=-1109): Invalid account.
+2026-07-21 20:35:30,582 | ERROR | trading_bot | Order placement failed
+Traceback (most recent call last):
+  File "C:\Users\ayush\Documents\binance-trading-bot\cli.py", line 110, in _run_place_order
+    response = place_market_order(
+    	client=client,
+    ...<2 lines>...
+    	quantity=cleaned_quantity,
+    )
+  File "C:\Users\ayush\Documents\binance-trading-bot\bot\orders.py", line 5, in place_market_order
+    return client.place_order(
+           ~~~~~~~~~~~~~~~~~~^
+    	symbol=symbol,
+     ^^^^^^^^^^^^^^
+    ...<2 lines>...
+    	quantity=quantity,
+     ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ayush\Documents\binance-trading-bot\bot\client.py", line 60, in place_order
+    response = self._client.futures_create_order(**params)
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 7951, in futures_create_order
+    return self._request_futures_api("post", "order", True, data=params)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 144, in _request_futures_api
+    return self._request(method, uri, signed, force_params, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 107, in _request
+    return self._handle_response(self.response)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\Documents\binance-trading-bot\.venv\Lib\site-packages\binance\client.py", line 116, in _handle_response
+    raise BinanceAPIException(response, response.status_code, response.text)
+binance.exceptions.BinanceAPIException: APIError(code=-1109): Invalid account.
+2026-07-21 20:39:17,189 | INFO | trading_bot | Order request initiated | Symbol=BTCUSDT Side=BUY Type=MARKET Qty=0.001 Price=None StopPrice=None
+2026-07-21 20:39:17,839 | DEBUG | trading_bot | Raw order response payload: {'orderId': 23173416653, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJeb55b06311609b488b073f', 'price': '0.00', 'origQty': '0.0010', 'executedQty': '0.0000', 'cumQty': '0.0000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1784646557804}
+2026-07-21 20:42:55,814 | INFO | trading_bot | Order request initiated | Symbol=BTCUSDT Side=SELL Type=MARKET Qty=0.001 Price=None StopPrice=None
+2026-07-21 20:42:56,452 | DEBUG | trading_bot | Raw order response payload: {'orderId': 23173856375, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'x-Cb7ytekJ73dc9931587127aff92cc0', 'price': '0.00', 'origQty': '0.0010', 'executedQty': '0.0000', 'cumQty': '0.0000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1784646776454}

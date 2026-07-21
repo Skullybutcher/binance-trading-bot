@@ -15,7 +15,6 @@ dist/
 build/
 
 # Logs (keep logs/ folder tracked)
-*.log
 !logs/
 
 # OS / tooling

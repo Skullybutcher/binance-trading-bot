@@ -29,8 +29,8 @@ def validate_order_type(order_type: str) -> str:
 		raise ValueError("Order type must be a string.")
 
 	cleaned_order_type = order_type.strip().upper()
-	if cleaned_order_type not in {"MARKET", "LIMIT", "STOP-LIMIT"}:
-		raise ValueError("Order type must be MARKET, LIMIT, or STOP-LIMIT.")
+	if cleaned_order_type not in {"MARKET", "LIMIT", "STOP", "STOP-LIMIT", "STOP_MARKET"}:
+		raise ValueError("Order type must be MARKET, LIMIT, STOP, STOP-LIMIT, or STOP_MARKET.")
 
 	return cleaned_order_type
 
@@ -50,7 +50,7 @@ def validate_quantity(quantity: float) -> float:
 def validate_price(price: float | None, order_type: str) -> float | None:
 	cleaned_order_type = validate_order_type(order_type)
 
-	if cleaned_order_type == "MARKET":
+	if cleaned_order_type in {"MARKET", "STOP_MARKET"}:
 		return None
 
 	if price is None:
@@ -65,3 +65,31 @@ def validate_price(price: float | None, order_type: str) -> float | None:
 		raise ValueError(f"Price must be greater than 0 for {cleaned_order_type} orders.")
 
 	return cleaned_price
+
+
+def validate_stop_price(stop_price: float, side: str, current_price: float | None = None) -> float:
+	cleaned_side = validate_side(side)
+
+	try:
+		cleaned_stop_price = float(stop_price)
+	except (TypeError, ValueError) as exc:
+		raise ValueError("Stop price must be a number.") from exc
+
+	if cleaned_stop_price <= 0:
+		raise ValueError("Stop price must be greater than 0.")
+
+	if current_price is not None:
+		try:
+			cleaned_current_price = float(current_price)
+		except (TypeError, ValueError) as exc:
+			raise ValueError("Current price must be a number.") from exc
+
+		if cleaned_current_price <= 0:
+			raise ValueError("Current price must be greater than 0.")
+
+		if cleaned_side == "BUY" and cleaned_stop_price <= cleaned_current_price:
+			raise ValueError("BUY stop price should be above the current market price.")
+		if cleaned_side == "SELL" and cleaned_stop_price >= cleaned_current_price:
+			raise ValueError("SELL stop price should be below the current market price.")
+
+	return cleaned_stop_price
